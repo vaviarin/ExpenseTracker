@@ -69,10 +69,56 @@ while (choice != 4)
                         Console.WriteLine(ex.Message);
                     }
                 }
+                string? category = null;
 
+                while (category == null)
+                {
+                    Console.Write("Category [Food/Transport/Utilities/Entertainment/Other]: ");
+                    category = BudgetRules.NormalizeCategory(Console.ReadLine());
+
+                    if (category == null)
+                    {
+                        Console.WriteLine("Unknown category. Please try again.");
+                    }
+                }
+                DateOnly expenseDate = DateOnly.FromDateTime(DateTime.Today);
+                bool validDate = false;
+
+                while (!validDate)
+                {
+                    Console.Write("Date (yyyy-mm-dd, blank = today): ");
+                    string? dateInput = Console.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(dateInput))
+                    {
+                        expenseDate = DateOnly.FromDateTime(DateTime.Today);
+                        validDate = true;
+                    }
+                    else if (!DateOnly.TryParseExact(
+                                 dateInput,
+                                 "yyyy-MM-dd",
+                                 CultureInfo.InvariantCulture,
+                                 DateTimeStyles.None,
+                                 out expenseDate))
+                    {
+                        Console.WriteLine("Use the format yyyy-mm-dd.");
+                    }
+                    else if (expenseDate > DateOnly.FromDateTime(DateTime.Today))
+                    {
+                        Console.WriteLine("Date cannot be in the future.");
+                    }
+                    else
+                    {
+                        validDate = true;
+                    }
+                }
+
+                totalSpent += amount;
+
+                totalSpent += amount;
                 Console.WriteLine(
-                    $"Recorded: {description} | {BudgetRules.FormatCurrency(amount)} | " +
-                    $"Size: {BudgetRules.ClassifyAmount(amount)}");
+                  $"Recorded: {description} | {BudgetRules.FormatCurrency(amount)} | " +
+                  $"{category} | {expenseDate:yyyy-MM-dd} | Size: {BudgetRules.ClassifyAmount(amount)}");
 
                 break;
             }

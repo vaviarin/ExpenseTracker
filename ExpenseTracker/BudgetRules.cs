@@ -84,7 +84,17 @@ public static class BudgetRules
     public static string BudgetStatus(decimal remaining, decimal monthlyLimit)
     {
         // TODO
-        throw new NotImplementedException();
+        string? normalized = input?.Trim().ToLowerInvariant();
+
+        return normalized switch
+        {
+            "food" or "f" => "Food",
+            "transport" or "t" => "Transport",
+            "utilities" or "u" => "Utilities",
+            "entertainment" or "e" => "Entertainment",
+            "other" or "o" => "Other",
+            _ => null
+        };
     }
 
     /// <summary>

@@ -38,7 +38,10 @@ while (choice != 4)
         
         case 1:
             {
-                string? description = null;
+                bool expenseRecorded = false;
+                try
+                {
+                    string? description = null;
 
                 while (string.IsNullOrWhiteSpace(description))
                 {
@@ -158,8 +161,8 @@ while (choice != 4)
                   $"Recorded: {description} | {BudgetRules.FormatCurrency(amount)} | " +
                   $"{category} | {expenseDate:yyyy-MM-dd} | Size: " +
                   $"{BudgetRules.ClassifyAmount(amount)}{noteText}");
-
-                if (budgetSet)
+                  expenseRecorded = true;
+                    if (budgetSet)
                 {
                     decimal remaining = monthlyBudget - totalSpent;
 
@@ -168,6 +171,21 @@ while (choice != 4)
                         $"{BudgetRules.FormatCurrency(monthlyBudget)} -> " +
                         $"{BudgetRules.BudgetStatus(remaining, monthlyBudget)}");
                 }
+                }
+                finally
+                {
+                    if (expenseRecorded)
+                    {
+                        Console.WriteLine("Expense entry complete.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Expense entry did not complete.");
+                    }
+                }
+
+                break;
+
                 break;
             }
 

@@ -8,6 +8,13 @@ Console.WriteLine("""
 """);
 int choice = 0;
 decimal totalSpent = 0m;
+int expenseCount = 0;
+decimal highestExpense = 0m;
+decimal foodTotal = 0m;
+decimal transportTotal = 0m;
+decimal utilitiesTotal = 0m;
+decimal entertainmentTotal = 0m;
+decimal otherTotal = 0m;
 decimal monthlyBudget = 0m;
 bool budgetSet = false;
 
@@ -120,6 +127,33 @@ while (choice != 4)
                 string noteText = note.Length == 0 ? "" : $" | Note: {note}";
 
                 totalSpent += amount;
+                expenseCount++;
+
+                if (amount > highestExpense)
+                {
+                    highestExpense = amount;
+                }
+
+                if (category == "Food")
+                {
+                    foodTotal += amount;
+                }
+                else if (category == "Transport")
+                {
+                    transportTotal += amount;
+                }
+                else if (category == "Utilities")
+                {
+                    utilitiesTotal += amount;
+                }
+                else if (category == "Entertainment")
+                {
+                    entertainmentTotal += amount;
+                }
+                else
+                {
+                    otherTotal += amount;
+                }
                 Console.WriteLine(
                   $"Recorded: {description} | {BudgetRules.FormatCurrency(amount)} | " +
                   $"{category} | {expenseDate:yyyy-MM-dd} | Size: " +

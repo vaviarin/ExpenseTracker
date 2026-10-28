@@ -159,6 +159,15 @@ while (choice != 4)
                   $"{category} | {expenseDate:yyyy-MM-dd} | Size: " +
                   $"{BudgetRules.ClassifyAmount(amount)}{noteText}");
 
+                if (budgetSet)
+                {
+                    decimal remaining = monthlyBudget - totalSpent;
+
+                    Console.WriteLine(
+                        $"Remaining budget: {BudgetRules.FormatCurrency(remaining)} of " +
+                        $"{BudgetRules.FormatCurrency(monthlyBudget)} -> " +
+                        $"{BudgetRules.BudgetStatus(remaining, monthlyBudget)}");
+                }
                 break;
             }
 

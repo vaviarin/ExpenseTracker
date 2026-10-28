@@ -73,17 +73,6 @@ public static class BudgetRules
     public static string? NormalizeCategory(string? input)
     {
         // TODO
-        throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Returns a budget-status message from the remaining funds and the limit:
-    /// "OVER BUDGET" (remaining &lt; 0), "Almost out" (less than 10% of the
-    /// limit remains), or "On track". Throw when the limit is not positive.
-    /// </summary>
-    public static string BudgetStatus(decimal remaining, decimal monthlyLimit)
-    {
-        // TODO
         string? normalized = input?.Trim().ToLowerInvariant();
 
         return normalized switch
@@ -95,6 +84,32 @@ public static class BudgetRules
             "other" or "o" => "Other",
             _ => null
         };
+    }
+
+    /// <summary>
+    /// Returns a budget-status message from the remaining funds and the limit:
+    /// "OVER BUDGET" (remaining &lt; 0), "Almost out" (less than 10% of the
+    /// limit remains), or "On track". Throw when the limit is not positive.
+    /// </summary>
+    public static string BudgetStatus(decimal remaining, decimal monthlyLimit)
+    {
+        // TODO
+        if (monthlyLimit <= 0)
+        {
+            throw new InvalidExpenseException("Budget limit must be positive.");
+        }
+
+        if (remaining < 0)
+        {
+            return "OVER BUDGET";
+        }
+
+        if (remaining < monthlyLimit * NearLimitFraction)
+        {
+            return "Almost out";
+        }
+
+        return "On track";
     }
 
     /// <summary>

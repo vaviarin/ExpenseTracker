@@ -113,12 +113,17 @@ while (choice != 4)
                     }
                 }
 
-                totalSpent += amount;
+                Console.Write("Note (optional): ");
+                string? noteInput = Console.ReadLine();
+
+                string note = noteInput?.Trim() ?? string.Empty;
+                string noteText = note.Length == 0 ? "" : $" | Note: {note}";
 
                 totalSpent += amount;
                 Console.WriteLine(
                   $"Recorded: {description} | {BudgetRules.FormatCurrency(amount)} | " +
-                  $"{category} | {expenseDate:yyyy-MM-dd} | Size: {BudgetRules.ClassifyAmount(amount)}");
+                  $"{category} | {expenseDate:yyyy-MM-dd} | Size: " +
+                  $"{BudgetRules.ClassifyAmount(amount)}{noteText}");
 
                 break;
             }

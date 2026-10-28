@@ -172,10 +172,42 @@ while (choice != 4)
             }
 
         case 2:
-            Console.WriteLine("Summary — coming next.");
-            break;
+            {
+                if (expenseCount == 0)
+                {
+                    Console.WriteLine("No expenses recorded yet.");
+                }
+                else
+                {
+                    decimal average = totalSpent / expenseCount;
 
-       
+                    Console.WriteLine($"Number of expenses: {expenseCount}");
+                    Console.WriteLine($"Total spent: {BudgetRules.FormatCurrency(totalSpent)}");
+                    Console.WriteLine($"Average expense: {BudgetRules.FormatCurrency(average)}");
+                    Console.WriteLine($"Highest expense: {BudgetRules.FormatCurrency(highestExpense)}");
+                }
+
+                Console.WriteLine("Spent by category:");
+                Console.WriteLine($"Food: {BudgetRules.FormatCurrency(foodTotal)}");
+                Console.WriteLine($"Transport: {BudgetRules.FormatCurrency(transportTotal)}");
+                Console.WriteLine($"Utilities: {BudgetRules.FormatCurrency(utilitiesTotal)}");
+                Console.WriteLine($"Entertainment: {BudgetRules.FormatCurrency(entertainmentTotal)}");
+                Console.WriteLine($"Other: {BudgetRules.FormatCurrency(otherTotal)}");
+
+                if (budgetSet)
+                {
+                    decimal summaryRemaining = monthlyBudget - totalSpent;
+
+                    Console.WriteLine(
+                        $"Budget: {BudgetRules.FormatCurrency(summaryRemaining)} remaining of " +
+                        $"{BudgetRules.FormatCurrency(monthlyBudget)} -> " +
+                        $"{BudgetRules.BudgetStatus(summaryRemaining, monthlyBudget)}");
+                }
+
+                break;
+            }
+
+
         case 3:
             {
                 bool validBudget = false;

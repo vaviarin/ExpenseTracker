@@ -45,7 +45,34 @@ while (choice != 4)
                 }
 
                 description = description.Trim();
-                Console.WriteLine($"Description entered: {description}");
+                decimal amount = 0m;
+                bool validAmount = false;
+
+                while (!validAmount)
+                {
+                    Console.Write("Amount: ");
+                    string? amountInput = Console.ReadLine();
+
+                    if (!decimal.TryParse(amountInput, out decimal enteredAmount))
+                    {
+                        Console.WriteLine("Please enter a number.");
+                        continue;
+                    }
+
+                    try
+                    {
+                        amount = BudgetRules.ValidateAmount(enteredAmount);
+                        validAmount = true;
+                    }
+                    catch (InvalidExpenseException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+
+                Console.WriteLine(
+                    $"Recorded: {description} | {BudgetRules.FormatCurrency(amount)} | " +
+                    $"Size: {BudgetRules.ClassifyAmount(amount)}");
 
                 break;
             }

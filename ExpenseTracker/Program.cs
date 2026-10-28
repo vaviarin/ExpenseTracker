@@ -7,6 +7,9 @@ Console.WriteLine("""
 ============================================================
 """);
 int choice = 0;
+decimal totalSpent = 0m;
+decimal monthlyBudget = 0m;
+bool budgetSet = false;
 
 while (choice != 4)
 {
@@ -34,8 +37,43 @@ while (choice != 4)
             break;
 
         case 3:
-            Console.WriteLine("Set budget — coming next.");
-            break;
+        case 3:
+            {
+                bool validBudget = false;
+
+                while (!validBudget)
+                {
+                    Console.Write("Monthly budget: ");
+                    string? budgetInput = Console.ReadLine();
+
+                    if (!decimal.TryParse(budgetInput, out decimal enteredBudget))
+                    {
+                        Console.WriteLine("Please enter a valid number.");
+                        continue;
+                    }
+
+                    try
+                    {
+                        monthlyBudget = BudgetRules.ValidateAmount(enteredBudget);
+                        budgetSet = true;
+                        validBudget = true;
+
+                        decimal remaining = monthlyBudget - totalSpent;
+
+                        Console.WriteLine(
+                            $"Budget set to {BudgetRules.FormatCurrency(monthlyBudget)}.");
+                        Console.WriteLine(
+                            $"Remaining: {BudgetRules.FormatCurrency(remaining)} — " +
+                            $"{BudgetRules.BudgetStatus(remaining, monthlyBudget)}");
+                    }
+                    catch (InvalidExpenseException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+
+                break;
+            }
 
         case 4:
             Console.WriteLine("Goodbye!");

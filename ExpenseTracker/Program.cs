@@ -28,15 +28,33 @@ while (choice != 4)
 
     switch (choice)
     {
+        
         case 1:
-            Console.WriteLine("Add expense — coming next.");
-            break;
+            {
+                string? description = null;
+
+                while (string.IsNullOrWhiteSpace(description))
+                {
+                    Console.Write("Description: ");
+                    description = Console.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(description))
+                    {
+                        Console.WriteLine("Description cannot be empty.");
+                    }
+                }
+
+                description = description.Trim();
+                Console.WriteLine($"Description entered: {description}");
+
+                break;
+            }
 
         case 2:
             Console.WriteLine("Summary — coming next.");
             break;
 
-        case 3:
+       
         case 3:
             {
                 bool validBudget = false;

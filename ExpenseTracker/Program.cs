@@ -55,6 +55,9 @@ while (choice != 4)
                 }
 
                 description = description.Trim();
+                string descriptionForDisplay = description.Length > 30
+                ? $"{description[..26]}...{description[^1]}"
+                : description;
                 decimal amount = 0m;
                 bool validAmount = false;
 
@@ -156,12 +159,14 @@ while (choice != 4)
                 else
                 {
                     otherTotal += amount;
-                }
-                Console.WriteLine(
-                  $"Recorded: {description} | {BudgetRules.FormatCurrency(amount)} | " +
+                    
+                    }
+                    expenseRecorded = true;
+                    Console.WriteLine(
+                  $"Recorded: {descriptionForDisplay} | {BudgetRules.FormatCurrency(amount)} | " +
                   $"{category} | {expenseDate:yyyy-MM-dd} | Size: " +
                   $"{BudgetRules.ClassifyAmount(amount)}{noteText}");
-                  expenseRecorded = true;
+                 
                     if (budgetSet)
                 {
                     decimal remaining = monthlyBudget - totalSpent;
@@ -186,7 +191,7 @@ while (choice != 4)
 
                 break;
 
-                break;
+                
             }
 
         case 2:
